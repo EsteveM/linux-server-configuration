@@ -7,7 +7,7 @@ This project is intended to work on a baseline installation of a publicly access
 * [Some key information](#some-key-information)
 * [Description of the Project](#description-of-the-project)
 * [Getting Started](#getting-started)
-* [Acknoledgements](#acknoledgements)
+* [Acknowledgements](#acknowledgements)
 * [Contributing](#contributing)
 
 ## Some key information
@@ -18,7 +18,7 @@ This section provides you with some key information about this project:
 * Server SSH port: 2200.
 * Complete URL to the hosted web application: http://18.185.87.128.xip.io/.
 * Summary of software I installed and configuration changes I made: See section [Description of the Project](#description-of-the-project).
-* List of third-party resources consulted to complete this project: See section [Acknoledgements](#acknoledgements).
+* List of third-party resources consulted to complete this project: See section [Acknowledgements](#acknowledgements).
 
 ## Description of the Project
 
@@ -28,7 +28,7 @@ This project progressively transforms a barebones Ubuntu server on a secure serv
 
 #### Step 1 - Start an Ubuntu Linux server instance
 
-The first step in this project is to start a publicly accessible Ubuntu Linux server instance in [Amazon Lightsail](https://lightsail.aws.amazon.com). Firstly, an Amazon Web Services account must be previously set up. Then, we create a Lightsail instance, and indicate we want a plain Ubuntu Linux instance. After that, as instance plan, we choose the lower tier one, which is good enough for our purposes. Once that has been done, a name must be given to the instance. I have named mine *_linux-server-configuration_*. After these steps, the instance starts up. In this case, its IP address is 18.185.87.128. As DNS name, 18.185.87.128.xip.io has been chosen because it is a simple and inexpensive way to derive a DNS name from an IP address provided by [Basecamp](xip.io).
+The first step in this project is to start a publicly accessible Ubuntu Linux server instance in [Amazon Lightsail](https://lightsail.aws.amazon.com). Firstly, an Amazon Web Services account must be previously set up. Then, we create a Lightsail instance, and indicate we want a plain Ubuntu Linux instance. After that, as instance plan, we choose the lower tier one, which is good enough for our purposes. Once that has been done, a name must be given to the instance. I have named mine *_linux-server-configuration_*. After these steps, the instance starts up. In this case, its IP address is 18.185.87.128. As DNS name, 18.185.87.128.xip.io has been chosen because it is a simple and inexpensive way to derive a DNS name from an IP address provided by [Basecamp](http://xip.io).
 
 #### Step 2 - SSH into the server instance
 
@@ -155,35 +155,35 @@ In this last step, we want to set up our web application in our server so that i
 
 * Firstly, a new virtual host has been configured on the new *_/etc/apache2/sites-available/itemcatalog.conf_* file. These are the contents of the file:
 
-`<VirtualHost *:80>
-                ServerName 18.185.87.128.xip.io
-                ServerAdmin esteban.masobro@gmail.com
-                WSGIScriptAlias / /var/www/itemcatalog/itemcatalog.wsgi
-                <Directory /var/www/itemcatalog/itemcatalog/>
-                        Order allow,deny
-                        Allow from all
-                </Directory>
-                Alias /static /var/www/itemcatalog/itemcatalog/static
-                <Directory /var/www/itemcatalog/itemcatalog/static/>
-                        Order allow,deny
-                        Allow from all
-                </Directory>
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                LogLevel warn
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>`
+`<VirtualHost *:80>`
+`                ServerName 18.185.87.128.xip.io`
+`                ServerAdmin esteban.masobro@gmail.com`
+`                WSGIScriptAlias / /var/www/itemcatalog/itemcatalog.wsgi`
+`                <Directory /var/www/itemcatalog/itemcatalog/>`
+`                        Order allow,deny`
+`                        Allow from all`
+`                </Directory>`
+`                Alias /static /var/www/itemcatalog/itemcatalog/static`
+`                <Directory /var/www/itemcatalog/itemcatalog/static/>`
+`                        Order allow,deny`
+`                        Allow from all`
+`                </Directory>`
+`                ErrorLog ${APACHE_LOG_DIR}/error.log`
+`                LogLevel warn`
+`                CustomLog ${APACHE_LOG_DIR}/access.log combined`
+`</VirtualHost>`
 
 * Secondly, the virtual host is enabled by issuing the command `sudo a2ensite itemcatalog`.
 * Thirdly, we create the *_/var/www/itemcatalog/itemcatalog.wsgi_* wsgi file so that Apache serves the *_Flask_* application. The contents of this file are:
 
-`#!/usr/bin/python
-import sys
-import logging
-logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/itemcatalog/")`
+`#!/usr/bin/python`
+`import sys`
+`import logging`
+`logging.basicConfig(stream=sys.stderr)`
+`sys.path.insert(0,"/var/www/itemcatalog/")`
 
-`from itemcatalog import app as application
-application.secret_key = 'super_secret_key'`
+`from itemcatalog import app as application`
+`application.secret_key = 'super_secret_key'`
 
 * Then, we restart Apache to apply the changes by issuing the command `sudo service apache2 restart`.
 
