@@ -56,7 +56,7 @@ This is the second step to secure our server, and consist of the following actio
 * Then, we check on the *_sshd_config_* file that password authentication is already disabled: `sudo nano /etc/ssh/sshd_config`.
 * After that, we configure the Lightsail firewall to allow SSH on port 2200. This is accomplished on the main page for the instance at [Amazon Lightsail](https://lightsail.aws.amazon.com).
 * At this point, we allow port 2200 on the *_sshd_config_* file through the `Port 2200` directive.
-* Finally, we restart sshd: `sudo sshd restart`.
+* Finally, we restart sshd: `sudo service sshd restart`.
 
 It is noteworthy that we do not need to remove the rule that allows ssh on port 22 on the Lightsail firewall because this will not be allowed by the Uncomplicated Firewall (UFW), which takes precedence.
 
@@ -70,6 +70,8 @@ This is the third and last step to secure our server, and consists of a series o
 * Allow HTTP (port 80): `sudo ufw allow www`.
 * Allow NTP (port 123): `sudo allow ntp`.
 * Finally, enable UFW: `sudo ufw enable`.
+
+Please note that remote login of the root user has been disabled by setting `PermitRootLogin no` on the *_/etc/ssh/sshd_config_* file.
 
 ### Give grader access
 
@@ -211,6 +213,7 @@ I want to acknowledge the resources used during the development of this project:
 * I reviewed the Pypi's documentation ["psycopg2 2.7.7"](https://pypi.org/project/psycopg2/) to know how to install *_psycopg2_*.
 * I have followed the Google Developers guide [Google Sign-In for server-side apps](https://developers.google.com/identity/sign-in/web/server-side-flow) to adapt the sign-in process of the *_Item Catalog_* web application so that this feature is provided.
 * I have read the StackOverflow's article [Make .git directory web inaccessible](https://stackoverflow.com/questions/6142437/make-git-directory-web-inaccessible) to identify how to prevent the .git directory from being publicly accessible via a browser.
+* I have checked the TecMint's [Disable or Enable SSH Root Login and Limit SSH Access in Linux](https://www.tecmint.com/disable-or-enable-ssh-root-login-and-limit-ssh-access-in-linux/) article to identify how to disable remote login of the root user.
 
 ## Contributing
 
