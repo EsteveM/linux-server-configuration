@@ -154,37 +154,37 @@ The first step to deploy the *_Item Catalog_* application consists of a number o
 In this last step, we want to set up our web application in our server so that it functions correctly when it is accessed from a browser. With this aim in view, the following steps have been performed:
 
 * Firstly, a new virtual host has been configured on the new *_/etc/apache2/sites-available/itemcatalog.conf_* file. These are the contents of the file:
-
-`<VirtualHost *:80>`
-`                ServerName 18.185.87.128.xip.io`
-`                ServerAdmin esteban.masobro@gmail.com`
-`                WSGIScriptAlias / /var/www/itemcatalog/itemcatalog.wsgi`
-`                <Directory /var/www/itemcatalog/itemcatalog/>`
-`                        Order allow,deny`
-`                        Allow from all`
-`                </Directory>`
-`                Alias /static /var/www/itemcatalog/itemcatalog/static`
-`                <Directory /var/www/itemcatalog/itemcatalog/static/>`
-`                        Order allow,deny`
-`                        Allow from all`
-`                </Directory>`
-`                ErrorLog ${APACHE_LOG_DIR}/error.log`
-`                LogLevel warn`
-`                CustomLog ${APACHE_LOG_DIR}/access.log combined`
-`</VirtualHost>`
-
+```
+<VirtualHost *:80>
+                ServerName 18.185.87.128.xip.io
+                ServerAdmin esteban.masobro@gmail.com
+                WSGIScriptAlias / /var/www/itemcatalog/itemcatalog.wsgi
+                <Directory /var/www/itemcatalog/itemcatalog/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/itemcatalog/itemcatalog/static
+                <Directory /var/www/itemcatalog/itemcatalog/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
 * Secondly, the virtual host is enabled by issuing the command `sudo a2ensite itemcatalog`.
 * Thirdly, we create the *_/var/www/itemcatalog/itemcatalog.wsgi_* wsgi file so that Apache serves the *_Flask_* application. The contents of this file are:
+```
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/itemcatalog/")
 
-`#!/usr/bin/python`
-`import sys`
-`import logging`
-`logging.basicConfig(stream=sys.stderr)`
-`sys.path.insert(0,"/var/www/itemcatalog/")`
-
-`from itemcatalog import app as application`
-`application.secret_key = 'super_secret_key'`
-
+from itemcatalog import app as application
+application.secret_key = 'super_secret_key'
+```
 * Then, we restart Apache to apply the changes by issuing the command `sudo service apache2 restart`.
 
 * After that, I have created a file named *_.htaccess_* within the /www/var/ directory, and set `RedirectMatch 404 /\.git` as its contents. In this way, we ensure the .git directory is not publicly accessible via a browser.
